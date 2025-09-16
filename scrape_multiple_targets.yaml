@@ -1,0 +1,13 @@
+scrape_configs:
+  - job_name: 'apache'
+    static_configs:
+      - targets:
+        - apache-server-1:80
+        - apache-server-2:80
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: your-single-apache-exporter:9117 # The address of the multi-target exporter
